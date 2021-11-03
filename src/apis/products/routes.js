@@ -21,7 +21,7 @@ productsRouter.get("/", productsHandler.getAll);
 
 productsRouter.post("/", productsHandler.createProduct);
 
-productsRouter.post('/uploadCover', multer({ storage: cloudinaryStorage}).single('picture'))
+productsRouter.post('/uploadCover', multer({ storage: cloudinaryStorage}).single('picture'), productsHandler.productImgCloud)
 // productsRouter
 //   .route("/:id/productCover")
 //   .put(

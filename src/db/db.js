@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { Sequelize } from "sequelize";
-import { Console } from "console";
+
 
 const { readFile, writeFile } = fs;
 
@@ -38,7 +38,7 @@ export const testConnection = async () => {
 export const connectDB = async () => {
   try {
       await sequelize.sync({ logging: false });
-      console.log("Connected and tables created");
+      console.log("Connected and tables created 💯");
   } catch (error) {
     console.log(error);
   }

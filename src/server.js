@@ -28,7 +28,6 @@ server.use(notFound);
 server.use(genericError);
 console.table(listEndpoints(server));
 
-console.log(listEndpoints(server));
 
 const { PORT } = process.env;
 

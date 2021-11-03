@@ -11,15 +11,25 @@ const getAll = async (req, res, next) => {
   }
 };
 
+const getAllByPrice = async (req, res, next) => {
+    try {
+        const products = await Product.findAll({
+            where : req.query.price ? {
+                price: req.query.price
+            } : {},
+            include: Review
+        })
+        res.send(products)
+    } catch (error) {
+        res.status(400).send(error.message); 
+    }
+}
+
 const productImgCloud = async (req, res, _next) => {
   try {
     const cloudImg = req.file.path;
 
-    const { name, category, image, price } = req.body
-
-    const products = await Product.create(req.body, 
-        { image: cloudImg },
-        {field : ['name', 'category', 'image', 'price']});
+    const products = await Product.create({...req.body, image: cloudImg })
 
     res.send(products);
   } catch (error) {
@@ -94,6 +104,7 @@ const deleteproductsById = async (req, res, next) => {
 
 const productsHandler = {
   getAll,
+  getAllByPrice,
   getById,
   createProduct,
   updateProductById,
