@@ -17,7 +17,9 @@ const cloudinaryStorage = new CloudinaryStorage({
     },
   })
 
-productsRouter.get("/", productsHandler.getAll);
+// productsRouter.get("/", productsHandler.getAll);
+
+productsRouter.get("/", productsHandler.getAllByPrice)
 
 productsRouter.post("/", productsHandler.createProduct);
 

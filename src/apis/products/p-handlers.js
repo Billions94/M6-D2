@@ -2,14 +2,6 @@ import models from "../../db/models/index.js";
 
 const { Product, Review } = models;
 
-const getAll = async (req, res, next) => {
-  try {
-    const products = await Product.findAll({ include: Review });
-    res.send(products);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
 
 const getAllByPrice = async (req, res, next) => {
     try {
@@ -103,7 +95,7 @@ const deleteproductsById = async (req, res, next) => {
 };
 
 const productsHandler = {
-  getAll,
+//   getAll,
   getAllByPrice,
   getById,
   createProduct,
