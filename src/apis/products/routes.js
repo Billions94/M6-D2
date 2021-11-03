@@ -1,5 +1,6 @@
+//                                        CODE BY EJIROGHENE                              //
+
 import express from "express";
-import createHttpError from "http-errors";
 import productsHandler from "./p-handlers.js";
 import reviewsHandler from "../reviews/r-handler.js";
 import multer from "multer";
@@ -11,13 +12,12 @@ const productsRouter = express.Router();
 
 // PRODUCT SECTION
 const cloudinaryStorage = new CloudinaryStorage({
-    cloudinary, // CREDENTIALS, 
+    cloudinary, 
     params: {
       folder: "amazon-db",
     },
   })
 
-// productsRouter.get("/", productsHandler.getAll);
 
 productsRouter.get("/", productsHandler.getAllByPrice)
 
@@ -55,3 +55,6 @@ productsRouter
   .delete(reviewsHandler.deleteReviewById);
 
 export default productsRouter;
+
+
+//                                        CODE BY EJIROGHENE                              //
