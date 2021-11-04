@@ -10,6 +10,6 @@ const ProductCategory = sequelize.define(
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         }
-    })
+    }, { timestamps: false })
 
 export default ProductCategory    

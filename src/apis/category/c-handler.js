@@ -6,7 +6,7 @@ const getAll = async (req, res, next) => {
   try {
     const category = await Category.findAll({
       include: [{ model: Product, through: { attributes: [] } }],
-    });
+    }); 
     res.send(category);
   } catch (error) {
     res.status(400).send(error.message);
@@ -25,9 +25,9 @@ const createCategory = async (req, res, next) => {
 const getById = async (req, res, next) => {
   try {
     const category = await Category.findOne({
-      where: {
-        id: req.params.id,
-      },
+      where: req.params.id ? {
+        id: req.params.id
+      } : {},
       include: Product,
     });
     res.send(category);
