@@ -4,6 +4,8 @@ import { connectDB, testConnection } from "./db/db.js"
 import listEndpoints from "express-list-endpoints";
 import productsRouter from "./apis/products/routes.js";
 import categoryRouter from "./apis/category/routes.js";
+import userRouter from "./apis/user/routes.js";
+import reviewsRouter from "./apis/reviews/routes.js";
 import {
   badRequest,
   unAuthorized,
@@ -20,7 +22,9 @@ server.use(cors());
 
 server.use(express.json());
 server.use("/products", productsRouter);
-server.use("/categories", categoryRouter)
+server.use("/categories", categoryRouter);
+server.use("/users", userRouter)
+server.use("/reviews", reviewsRouter)
 
 
 server.use(badRequest);

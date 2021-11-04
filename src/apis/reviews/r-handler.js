@@ -15,8 +15,9 @@ const getAll = async (_req, res, _next) => {
   const createReview = async (req, res, _next) => {
     try {
         const reviews = await Review.create({
-          ...req.body, 
-          productId:req.params.id
+          text: req.body.text, 
+          productId:req.params.productId,
+          userId:req.params.userId
         })
   
       res.send(reviews);

@@ -11,10 +11,6 @@ const Product = sequelize.define(
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        category: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         name: {
             type: DataTypes.STRING,
             allowNull: false

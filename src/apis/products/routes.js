@@ -21,9 +21,11 @@ const cloudinaryStorage = new CloudinaryStorage({
 
 productsRouter.get("/", productsHandler.getAllByPrice)
 
-productsRouter.post("/", productsHandler.createProduct);
+// productsRouter.post("/", productsHandler.createProduct);
 
-productsRouter.post('/uploadCover', multer({ storage: cloudinaryStorage}).single('picture'), productsHandler.productImgCloud)
+
+
+productsRouter.post('/', multer({ storage: cloudinaryStorage}).single('picture'), productsHandler.productImgCloud)
 // productsRouter
 //   .route("/:id/productCover")
 //   .put(
@@ -37,22 +39,7 @@ productsRouter
   .put(productsHandler.updateProductById)
   .delete(productsHandler.deleteproductsById);
 
-// REVIEWS SECTION
 
-productsRouter
-  .route("/:id/reviews")
-  .get(reviewsHandler.getById)
-  .post(reviewsHandler.createReview);
-
-productsRouter
-  .route("/")
-  .post(reviewsHandler.createReview);
-
-  
-productsRouter
-  .route("/:id/reviews/:reviewId")
-  .put(reviewsHandler.updateReviewById)
-  .delete(reviewsHandler.deleteReviewById);
 
 export default productsRouter;
 

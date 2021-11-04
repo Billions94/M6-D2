@@ -7,7 +7,12 @@ categoryRouter.get("/", categoryHandler.getAll)
 
 categoryRouter.post("/", categoryHandler.createCategory)
 
-categoryRouter.route("/")
+
+
+categoryRouter.route("/:id")
+.get(categoryHandler.getById)
+.put(categoryHandler.updateCategoryById)
+.delete(categoryHandler.deleteCategory)
 
 
 export default categoryRouter

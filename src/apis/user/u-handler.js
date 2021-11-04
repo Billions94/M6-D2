@@ -32,13 +32,39 @@ const getById = async (req, res, next) => {
 }
 
 const updateUser = async (req, res, next) => {
-    
+    try {
+        const updatedUser = await User.update(
+            { ...req.body },
+            {
+              where: {
+                id: req.params.id,
+              },
+              returning: true,
+            }      
+        )
+        res.status(203).send(updatedUser)
+    } catch (error) {
+        res.status(400).send(error.message);  
+    }
+}
+
+const deleteUser = async (req, res) => {
+    try {
+        const row = await User.destroy({
+            where: { id: req.params.id }
+        })
+        res.status(204).send({ row })
+    } catch (error) {
+        res.status(400).send(error.message);  
+    }
 }
 
 const userHandler = {
     getAll,
     creatUser,
     getById,
+    updateUser,
+    deleteUser
 }
 
 export default userHandler

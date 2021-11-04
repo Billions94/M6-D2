@@ -1,6 +1,6 @@
 import models from "../../db/models/index.js";
 
-const { Product, Review, User } = models;
+const { Product, Review, ProductCategory, Category } = models;
 
 
 const getAllByPrice = async (req, res, next) => {
@@ -9,7 +9,7 @@ const getAllByPrice = async (req, res, next) => {
             where : req.query.price ? {
                 price: req.query.price
             } : {},
-            include: { model: Review }
+            include: [Review, Category]
         })
         res.send(products)
     } catch (error) {
@@ -21,13 +21,25 @@ const productImgCloud = async (req, res, _next) => {
   try {
     const cloudImg = req.file.path;
 
-    const products = await Product.create({...req.body, image: cloudImg })
+    const data = await Product.create({...req.body, image: cloudImg })
+    await ProductCategory.create({ productId: data.id, categoryId: req.body.categoryId})
+    
 
-    res.send(products);
+    res.send(data);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
+
+// const createProduct = async (req, res, next) => {
+//   try {
+//     const product = await Product.create(req.body);
+//     res.send(product);
+//   } catch (error) {
+//     res.status(400).send(error.message);
+//   }
+// };
 
 const getById = async (req, res, next) => {
   try {
@@ -37,15 +49,6 @@ const getById = async (req, res, next) => {
       }, include: Review 
     })
 
-    res.send(products);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
-
-const createProduct = async (req, res, next) => {
-  try {
-    const products = await Product.create(req.body);
     res.send(products);
   } catch (error) {
     res.status(400).send(error.message);
@@ -102,7 +105,7 @@ const productsHandler = {
 //   getAll,
   getAllByPrice,
   getById,
-  createProduct,
+  // createProduct,
   updateProductById,
   productImgCloud,
   // addProductImage,
