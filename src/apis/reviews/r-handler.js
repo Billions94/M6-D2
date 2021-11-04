@@ -14,7 +14,10 @@ const getAll = async (_req, res, _next) => {
   
   const createReview = async (req, res, _next) => {
     try {
-        const reviews = await Review.create({...req.body, productId:req.params.id})
+        const reviews = await Review.create({
+          ...req.body, 
+          productId:req.params.id
+        })
   
       res.send(reviews);
     } catch (error) {

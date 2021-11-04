@@ -1,22 +1,5 @@
-import fs from "fs-extra";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
 import { Sequelize } from "sequelize";
 
-
-const { readFile, writeFile } = fs;
-
-export const dataFolderPath = join(
-  dirname(fileURLToPath(import.meta.url)),
-  "../models"
-);
-console.log(dataFolderPath);
-
-const tablesSQLPath = join(dataFolderPath, "tables.sql");
-console.log(tablesSQLPath);
-
-export const getTables = () => readFile(tablesSQLPath);
-export const writeTables = (content) => writeFile(tablesSQLPath, content);
 
 const { PGDATABASE, PGUSER, PGPASSWORD, PGHOST, PGPORT } = process.env;
 
@@ -29,7 +12,7 @@ const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
 export const testConnection = async () => {
   try {
     await sequelize.authenticate({ logging: false });
-    console.log("Can be established");
+    console.log("Authenticated 🟢 🟢");
   } catch (error) {
     console.log(error);
   }
@@ -38,7 +21,7 @@ export const testConnection = async () => {
 export const connectDB = async () => {
   try {
       await sequelize.sync({ logging: false });
-      console.log("Connected and tables created 💯");
+      console.log("Connected and tables created 🟢 🟢 🟢");
   } catch (error) {
     console.log(error);
   }

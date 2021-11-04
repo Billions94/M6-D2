@@ -3,7 +3,7 @@ import cors from "cors";
 import { connectDB, testConnection } from "./db/db.js"
 import listEndpoints from "express-list-endpoints";
 import productsRouter from "./apis/products/routes.js";
-import models from "./db/models/index.js";
+import categoryRouter from "./apis/category/routes.js";
 import {
   badRequest,
   unAuthorized,
@@ -20,6 +20,7 @@ server.use(cors());
 
 server.use(express.json());
 server.use("/products", productsRouter);
+server.use("/categories", categoryRouter)
 
 
 server.use(badRequest);

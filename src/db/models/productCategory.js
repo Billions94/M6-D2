@@ -3,19 +3,13 @@ import seq from "sequelize";
 
 const { DataTypes } = seq;
 
-const Review = sequelize.define(
-    'reviews', 
-    {
+const ProductCategory = sequelize.define(
+    'productCategories', {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
-        },
-        text: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-    }
-)
+        }
+    })
 
-export default Review
+export default ProductCategory    

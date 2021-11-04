@@ -1,6 +1,6 @@
 import models from "../../db/models/index.js";
 
-const { Product, Review } = models;
+const { Product, Review, User } = models;
 
 
 const getAllByPrice = async (req, res, next) => {
@@ -9,7 +9,7 @@ const getAllByPrice = async (req, res, next) => {
             where : req.query.price ? {
                 price: req.query.price
             } : {},
-            include: Review
+            include: { model: Review }
         })
         res.send(products)
     } catch (error) {
@@ -31,7 +31,11 @@ const productImgCloud = async (req, res, _next) => {
 
 const getById = async (req, res, next) => {
   try {
-    const products = await Product.findByPk(req.params.id);
+    const products = await Product.findOne({
+      where: {
+        id: req.params.id
+      }, include: Review 
+    })
 
     res.send(products);
   } catch (error) {
