@@ -1,4 +1,6 @@
 import models from "../../db/models/index.js";
+import sequelize from "sequelize";
+const { Op } = sequelize
 
 const { Product, Review, ProductCategory, Category } = models;
 
@@ -13,7 +15,12 @@ const getAllByPrice = async (req, res, _next) => {
           ],
         }),
       },
-      include: [Review, Category],
+      include: [ Review, { model: Category, 
+        where: {
+          ...(req.query.search && {
+            [Op.iLike]: `%${req.query.search}%`
+          })
+        }}],
     });
     res.send(products);
   } catch (error) {
@@ -46,14 +53,14 @@ const productImgCloud = async (req, res, _next) => {
   }
 };
 
-const createProduct = async (req, res, next) => {
-  try {
-    const product = await Product.create(req.body);
-    res.send(product);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
+// const createProduct = async (req, res, next) => {
+//   try {
+//     const product = await Product.create(req.body);
+//     res.send(product);
+//   } catch (error) {
+//     res.status(400).send(error.message);
+//   }
+// };
 
 const getById = async (req, res, next) => {
   try {
@@ -120,7 +127,7 @@ const productsHandler = {
   //   getAll,
   getAllByPrice,
   getById,
-  createProduct,
+  // createProduct,
   updateProductById,
   productImgCloud,
   // addProductImage,
