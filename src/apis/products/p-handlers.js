@@ -10,8 +10,8 @@ const getAllByPrice = async (req, res, _next) => {
       where: {
         ...(req.query.search && {
           [Op.or]: [
-            { name: { [Op.ilike]: `%${req.query.search}% ` } },
-            { price: { [Op.ilike]: `%${req.query.search}% ` } },
+            { name: { [Op.iLike]: `%${req.query.search}% ` } },
+            { price: { [Op.iLike]: `%${req.query.search}% ` } },
           ],
         }),
       },
