@@ -17,7 +17,7 @@ const getAllByPrice = async (req, res, _next) => {
       },
       include: [ Review, { model: Category, 
         where: {
-          ...(req.query.search && {
+          ...(req.query.category && {
              category: {[Op.iLike]: `%${req.query.search}%`}
           })
         }}],
