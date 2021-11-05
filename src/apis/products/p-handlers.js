@@ -24,8 +24,10 @@ const getAllByPrice = async (req, res, next) => {
     });
     res.send({
       data: products.rows,
-      total: products.count,
+      ...(req.query.size && req.query.page && {
+        total: products.count,
       pages: Math.ceil(products.count / req.query.size),
+      })
     });
   } catch (error) {
     res.status(400).send(error.message);
