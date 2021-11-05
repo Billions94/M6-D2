@@ -21,11 +21,11 @@ const cloudinaryStorage = new CloudinaryStorage({
 
 productsRouter.get("/", productsHandler.getAllByPrice)
 
-// productsRouter.post("/", productsHandler.createProduct);
+productsRouter.post("/", productsHandler.createProduct);
 
 
 
-productsRouter.post('/', multer({ storage: cloudinaryStorage}).single('picture'), productsHandler.productImgCloud)
+productsRouter.post('/upload', multer({ storage: cloudinaryStorage}).single('image'), productsHandler.productImgCloud)
 // productsRouter
 //   .route("/:id/productCover")
 //   .put(
