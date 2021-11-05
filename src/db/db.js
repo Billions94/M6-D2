@@ -4,8 +4,8 @@ import { Sequelize } from "sequelize";
 const { PGDATABASE, PGUSER, PGPASSWORD, PGHOST, PGPORT, NODE_ENV } = process.env;
 
 const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
-  PGHOST,
-  PGPORT,
+  host:PGHOST,
+  port:PGPORT,
   dialect: 'postgres',
   ...(NODE_ENV === 'production' && {
     dialectOptions: {         // IMPORTANT
