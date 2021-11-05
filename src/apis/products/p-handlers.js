@@ -1,4 +1,7 @@
 import models from "../../db/models/index.js";
+import  sequelize  from "sequelize";
+
+const { Op } = sequelize
 
 const { Product, Review, ProductCategory, Category } = models;
 
