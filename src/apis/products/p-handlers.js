@@ -1,41 +1,36 @@
 import models from "../../db/models/index.js";
 import sequelize from "sequelize";
-const { Op } = sequelize
+const { Op } = sequelize;
 
 const { Product, Review, ProductCategory, Category } = models;
 
-const getAllByPrice = async (req, res, _next) => {
+const getAllByPrice = async (req, res, next) => {
   try {
-    const products = await Product.findAll({
-      where: {
-        ...(req.query.search && {
-          [Op.or]: [
-            { name: { [Op.iLike]: `%${req.query.search}% ` } },
-            { price: { [Op.iLike]: `%${req.query.search}% ` } },
-          ],
-        }),
-      },
-      include: [ Review, { model: Category, 
-        where: {
-          ...(req.query.category && {
-             category: {[Op.iLike]: `%${req.query.search}%`}
-          })
-        }}],
+    const products = await Product.findAndCountAll({
+      include: [
+        {
+          model: Category,
+          where: {
+            ...(req.query.category && {
+              name: req.query.category,
+            }),
+          },
+        },
+        Review,
+      ],
+      order: [["createdAt", "ASC"]],
+      limit: req.query.size,
+      offset: parseInt(req.query.size * req.query.page),
     });
-    res.send(products);
+    res.send({
+      data: products.rows,
+      total: products.count,
+      pages: Math.ceil(products.count / req.query.size),
+    });
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
-
-// where: {
-//   ...(req.query.search && {
-//     [Op.or]: [
-//       { name: { [Op.ilike]: %${req.query.search}% } },
-//       { price: { [Op.ilike]: %${req.query.search}% } },
-//     ],
-//   }),
-// },
 
 const productImgCloud = async (req, res, _next) => {
   try {
@@ -48,6 +43,39 @@ const productImgCloud = async (req, res, _next) => {
     });
 
     res.send(data);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+const addCategoryToProduct = async (req, res, next) => {
+  try {
+    const { categoryId, productId } = req.body;
+
+    const data = await ProductCategory.create({
+      productId: productId,
+      categoryId: categoryId,
+    });
+    const product = await Product.findOne({
+      where: { id: productId },
+    });
+    res.status(201).send(product);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+const deleteProductCategory = async (req, res, next) => {
+  try {
+    const { categoryId, productId } = req.body;
+
+    const data = await ProductCategory.destroy({
+      where: {
+        productId: productId,
+        categoryId: categoryId,
+      },
+    });
+    res.send({ data });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -77,6 +105,23 @@ const getById = async (req, res, next) => {
   }
 };
 
+// const updateProductById = async (req, res, next) => {
+//   try {
+//     const updatedProduct = await Product.update(
+//       { ...req.body },
+//       {
+//         where: {
+//           id: req.params.id,
+//         },
+//         returning: true,
+//       }
+//     );
+//     res.send(updatedProduct);
+//   } catch (error) {
+//     res.status(400).send(error.message);
+//   }
+// };
+
 const updateProductById = async (req, res, next) => {
   try {
     const updatedProduct = await Product.update(
@@ -87,6 +132,10 @@ const updateProductById = async (req, res, next) => {
         },
         returning: true,
       }
+    );
+    await ProductCategory.update(
+      { ...req.body },
+      { where: { categoryId: req.body.categoryId } }
     );
     res.send(updatedProduct);
   } catch (error) {
@@ -132,6 +181,8 @@ const productsHandler = {
   productImgCloud,
   // addProductImage,
   deleteproductsById,
+  addCategoryToProduct,
+  deleteProductCategory,
 };
 
 export default productsHandler;
