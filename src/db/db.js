@@ -28,7 +28,7 @@ export const testConnection = async () => {
 
 export const connectDB = async () => {
   try {
-      await sequelize.sync({ logging: false , force: true  });
+      await sequelize.sync({ logging: false });
       console.log("Connected and tables created 🟢 🟢 🟢 ");
   } catch (error) {
     console.log(error);
