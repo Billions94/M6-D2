@@ -9,7 +9,7 @@ const getAllByPrice = async (req, res, _next) => {
             where : req.query.price ? {
                 price: req.query.price
             } : {},
-            include: [Review, Category]
+            include: [Review]
         })
         res.send(products)
     } catch (error) {
