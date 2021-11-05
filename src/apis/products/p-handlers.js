@@ -1,37 +1,57 @@
 import models from "../../db/models/index.js";
+import sequelize from "sequelize";
+const { Op } = sequelize
 
 const { Product, Review, ProductCategory, Category } = models;
 
-
 const getAllByPrice = async (req, res, _next) => {
-    try {
-        const products = await Product.findAll({
-            where : req.query.price ? {
-                price: req.query.price
-            } : {},
-            include: [Review, Category]
-        })
-        res.send(products)
-    } catch (error) {
-        res.status(400).send(error.message); 
-    }
-}
+  try {
+    const products = await Product.findAll({
+      where: {
+        ...(req.query.search && {
+          [Op.or]: [
+            { name: { [Op.iLike]: `%${req.query.search}% ` } },
+            { price: { [Op.iLike]: `%${req.query.search}% ` } },
+          ],
+        }),
+      },
+      include: [ Review, { model: Category, 
+        where: {
+          ...(req.query.search && {
+             category: {[Op.iLike]: `%${req.query.search}%`}
+          })
+        }}],
+    });
+    res.send(products);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 
+// where: {
+//   ...(req.query.search && {
+//     [Op.or]: [
+//       { name: { [Op.ilike]: %${req.query.search}% } },
+//       { price: { [Op.ilike]: %${req.query.search}% } },
+//     ],
+//   }),
+// },
 
 const productImgCloud = async (req, res, _next) => {
   try {
     const cloudImg = req.file.path;
 
-    const data = await Product.create({...req.body, image: cloudImg })
-    await ProductCategory.create({ productId: data.id, categoryId: req.body.categoryId})
-    
+    const data = await Product.create({ ...req.body, image: cloudImg });
+    await ProductCategory.create({
+      productId: data.id,
+      categoryId: req.body.categoryId,
+    });
 
     res.send(data);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
-
 
 // const createProduct = async (req, res, next) => {
 //   try {
@@ -46,9 +66,10 @@ const getById = async (req, res, next) => {
   try {
     const products = await Product.findOne({
       where: {
-        id: req.params.id
-      }, include: Review 
-    })
+        id: req.params.id,
+      },
+      include: Review,
+    });
 
     res.send(products);
   } catch (error) {
@@ -103,7 +124,7 @@ const deleteproductsById = async (req, res, next) => {
 };
 
 const productsHandler = {
-//   getAll,
+  //   getAll,
   getAllByPrice,
   getById,
   // createProduct,
