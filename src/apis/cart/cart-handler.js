@@ -54,7 +54,7 @@ const deleteCart =  async (req, res, next) => {
     try {
         const { userId, productId } = req.params
 
-        const row = await Cart.destroy({ userId, productId })
+        const row = await Cart.destroy({ where: { userId, productId }})
         res.status(204).send({ row })
     } catch (error) {
         console.error(error)
