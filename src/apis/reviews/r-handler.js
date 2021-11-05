@@ -7,7 +7,8 @@ const getAll = async (_req, res, _next) => {
       const reviews = await Review.findAll({ include: Product})
       res.send(reviews);
     } catch (error) {
-      res.status(400).send(error.message);
+      console.error(error)
+      next(error)
     }
   };
   
@@ -22,7 +23,8 @@ const getAll = async (_req, res, _next) => {
   
       res.send(reviews);
     } catch (error) {
-      res.status(400).send(error.message);
+      console.error(error)
+      next(error)
     }
   };
 
@@ -33,7 +35,8 @@ const getAll = async (_req, res, _next) => {
         res.send(reviews);
 
     } catch (error) {
-      res.status(400).send(error.message);
+      console.error(error)
+      next(error)
     }
   };
 
@@ -52,7 +55,8 @@ const getAll = async (_req, res, _next) => {
           );
       res.send(updatedReview);
     } catch (error) {
-      res.status(400).send(error.message);
+      console.error(error)
+      next(error)
     }
   };
   
@@ -65,7 +69,8 @@ const getAll = async (_req, res, _next) => {
           });
           res.send({ review });
     } catch (error) {
-      res.status(400).send(error.message);
+      console.error(error)
+      next(error)
     }
   };
   

@@ -12,6 +12,7 @@ import {
   notFound,
   genericError,
 } from "./errorHandlers.js";
+import cartRouter from "./apis/cart/routes.js";
 
 
 
@@ -25,6 +26,7 @@ server.use("/products", productsRouter);
 server.use("/categories", categoryRouter);
 server.use("/users", userRouter)
 server.use("/reviews", reviewsRouter)
+server.use("/cart", cartRouter)
 
 
 server.use(badRequest);

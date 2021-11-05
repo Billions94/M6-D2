@@ -4,12 +4,11 @@ const { Product, Review, User, Category } = models;
 
 const getAll = async (req, res, next) => {
   try {
-    const category = await Category.findAll({
-      include: [{ model: Product, through: { attributes: [] } }],
-    }); 
+    const category = await Category.findAll(); 
     res.send(category);
   } catch (error) {
-    res.status(400).send(error.message);
+    console.error(error)
+    next(error)
   }
 };
 
@@ -18,7 +17,8 @@ const createCategory = async (req, res, next) => {
     const category = await Category.create(req.body);
     res.status(201).send(category);
   } catch (error) {
-    res.status(400).send(error.message);
+    console.error(error)
+    next(error)
   }
 };
 
@@ -32,7 +32,8 @@ const getById = async (req, res, next) => {
     });
     res.send(category);
   } catch (error) {
-    res.status(400).send(error.message);
+    console.error(error)
+    next(error)
   }
 };
 
@@ -49,7 +50,8 @@ const updateCategoryById = async(req, res, next) => {
     );
     res.status(203).send(category)
   } catch (error) {
-    res.status(400).send(error.message);
+    console.error(error)
+    next(error)
   }
 };
 
@@ -62,7 +64,8 @@ const deleteCategory = async(req, res, next) => {
         })
         res.status(204).send({ row })
     } catch (error) {
-        res.status(400).send(error.message); 
+      console.error(error)
+      next(error)
     }
 }
 

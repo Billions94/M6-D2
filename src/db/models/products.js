@@ -23,7 +23,10 @@ const Product = sequelize.define(
             type: DataTypes.FLOAT,
             allowNull: false
         }
-    }
+    },
+        {
+            timestamps: false
+        }
 )
 
 export default Product

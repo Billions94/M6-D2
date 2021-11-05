@@ -13,15 +13,10 @@ const Category = sequelize.define(
         name : {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        isMobile : {
-            type: DataTypes.BOOLEAN,
-            allowNull: true
-        },
-        isLaptop : {
-            type: DataTypes.BOOLEAN,
-            allowNull: true
         }
+    }, 
+    {
+        timestamps: false
     }
 )
 

@@ -7,7 +7,8 @@ const getAll = async (req, res, next) => {
         const users = await User.findAll(req.body)
         res.send(users)
     } catch (error) {
-        res.status(400).send(error.message);
+        console.error(error)
+        next(error)
     }
 }
 
@@ -16,7 +17,8 @@ const creatUser = async (req, res, next) => {
         const newUser = await User.create(req.body)
         res.status(201).send(newUser)
     } catch (error) {
-        res.status(400).send(error.message); 
+        console.error(error)
+        next(error)
     }
 }
 
@@ -27,7 +29,8 @@ const getById = async (req, res, next) => {
         })
         res.send(user)
     } catch (error) {
-        res.status(400).send(error.message);  
+        console.error(error)
+        next(error)  
     }
 }
 
@@ -44,7 +47,8 @@ const updateUser = async (req, res, next) => {
         )
         res.status(203).send(updatedUser)
     } catch (error) {
-        res.status(400).send(error.message);  
+        console.error(error)
+        next(error)  
     }
 }
 
@@ -55,7 +59,8 @@ const deleteUser = async (req, res) => {
         })
         res.status(204).send({ row })
     } catch (error) {
-        res.status(400).send(error.message);  
+        console.error(error)
+        next(error) 
     }
 }
 

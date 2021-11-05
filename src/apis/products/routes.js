@@ -19,15 +19,15 @@ const cloudinaryStorage = new CloudinaryStorage({
   })
 
 
-productsRouter.get("/", productsHandler.getAllByPrice)
+productsRouter.get("/", productsHandler.getAll)
 
-// productsRouter.post("/", productsHandler.createProduct);
+productsRouter.post("/", productsHandler.createProduct);
 
 productsRouter.post("/addcategory", productsHandler.addCategoryToProduct)
 
 productsRouter.delete("/removecategory", productsHandler.deleteProductCategory)
 
-productsRouter.post('/', multer({ storage: cloudinaryStorage}).single('image'), productsHandler.productImgCloud)
+productsRouter.post('/uploadImage', multer({ storage: cloudinaryStorage}).single('image'), productsHandler.productImgCloud)
 // productsRouter
 //   .route("/:id/productCover")
 //   .put(
