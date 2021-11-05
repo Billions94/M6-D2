@@ -3,7 +3,7 @@ import models from "../../db/models/index.js";
 const { Product, Review, ProductCategory, Category } = models;
 
 
-const getAllByPrice = async (req, res, next) => {
+const getAllByPrice = async (req, res, _next) => {
     try {
         const products = await Product.findAll({
             where : req.query.price ? {
