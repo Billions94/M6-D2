@@ -19,7 +19,7 @@ const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
 
 export const testConnection = async () => {
   try {
-    await sequelize.authenticate({ logging: false });
+    await sequelize.authenticate({ logging: false, force: true });
     console.log("Authenticated 🟢 🟢");
   } catch (error) {
     console.log(error);
