@@ -25,12 +25,12 @@ Cart.belongsTo(Product)
 User.hasMany(Cart); // User.findAll({include: Cart})
 Cart.belongsTo(User);
 
-// Product.belongsToMany(Category, 
-//     { through: { model: ProductCategory, unique: false },
-// })
-// Category.belongsToMany(Product, {
-//     through: { model: ProductCategory, unique: false },
-// })
+Product.belongsToMany(Category, 
+    { through: { model: ProductCategory, unique: false },
+})
+Category.belongsToMany(Product, {
+    through: { model: ProductCategory, unique: false },
+})
 
 
 
